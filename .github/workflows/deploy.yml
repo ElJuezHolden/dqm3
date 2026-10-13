@@ -1,0 +1,84 @@
+# Publica la web en GitHub Pages. Además, una vez por semana vuelve a descargar los datos de
+# dev.metalkid.info; si han cambiado, los guarda en el repo y republica.
+name: Actualizar y publicar
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "23 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      publish: ${{ steps.decide.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Descargar datos de MetalKid
+        if: github.event_name != 'push'
+        run: node scripts/sync.mjs
+
+      - name: ¿Han cambiado los datos?
+        id: diff
+        run: |
+          # La fecha de sincronización cambia siempre; se compara el resto.
+          if [ -z "$(git diff -- public/data | grep -E '^[+-][^+-]' | grep -v syncedAt)" ]; then
+            git checkout -- public/data
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Guardar los datos nuevos en el repositorio
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data
+          git commit -m "Datos actualizados desde MetalKid"
+          git push
+
+      - name: ¿Publicar?
+        id: decide
+        run: echo "publish=${{ github.event_name != 'schedule' || steps.diff.outputs.changed == 'true' }}" >> "$GITHUB_OUTPUT"
+
+      - name: Construir la web
+        if: steps.decide.outputs.publish == 'true'
+        run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.decide.outputs.publish == 'true'
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
