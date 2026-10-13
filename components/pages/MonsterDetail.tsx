@@ -129,11 +129,11 @@ function Resistances({ m }: { m: Monster }) {
       }
     >
       <div className="label mb-1.5">Elementos</div>
-      <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
         {ELEMENT_IDS.map((id) => <ResCell key={id} id={id} v={v(id)} />)}
       </div>
       <div className="label mb-1.5 mt-3">Estados</div>
-      <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
         {STATUS_IDS.map((id) => <ResCell key={id} id={id} v={v(id)} />)}
       </div>
       <div className="mt-3"><ResLegend /></div>

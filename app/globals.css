@@ -46,6 +46,7 @@ body {
 ::selection { background: var(--gold); color: #1a1405; }
 * { scrollbar-width: thin; scrollbar-color: #33415f transparent; }
 
+@layer components {
 .card { background: color-mix(in srgb, var(--panel) 88%, transparent); border: 1px solid var(--line); border-radius: 14px; }
 .card-hover { transition: border-color .15s, transform .15s, background .15s; }
 .card-hover:hover { border-color: color-mix(in srgb, var(--gold) 55%, var(--line)); background: var(--panel-2); }
@@ -70,14 +71,17 @@ body {
 .res-absorb { background: var(--absorb); color: #fff; }
 
 .sprite { background-repeat: no-repeat; image-rendering: auto; flex-shrink: 0; }
+}
 
 input[type="range"] { accent-color: var(--gold); }
 
+@layer components {
 table.data { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .875rem; }
 table.data th { position: sticky; top: 0; background: var(--panel-2); color: var(--muted); font-weight: 600; text-align: left; padding: .5rem .6rem; font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; z-index: 1; cursor: default; white-space: nowrap; }
 table.data td { padding: .45rem .6rem; border-top: 1px solid var(--line); vertical-align: middle; }
 table.data tbody tr:hover td { background: color-mix(in srgb, var(--panel-2) 70%, transparent); }
 .num { text-align: right; font-variant-numeric: tabular-nums; }
+}
 
 @keyframes fadein { from { opacity: 0; transform: translateY(4px) } to { opacity: 1; transform: none } }
 .fade-in { animation: fadein .2s ease-out; }
