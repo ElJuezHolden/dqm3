@@ -37,7 +37,7 @@ function statRanks(db: DB) {
 
 function Panel({ title, id, right, children, className = "" }: { title: ReactNode; id?: string; right?: ReactNode; children: ReactNode; className?: string }) {
   return (
-    <section id={id} className={`card scroll-mt-20 p-4 ${className}`}>
+    <section id={id} className={`card min-w-0 scroll-mt-20 p-4 ${className}`}>
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <h2 className="label text-[11px] text-gold-2">{title}</h2>
         {right}
@@ -103,7 +103,7 @@ function Sheet({ db, m }: { db: DB; m: Monster }) {
       </header>
 
       {/* Fila 1: stats · resistencias · rasgos */}
-      <div className="grid gap-4 lg:grid-cols-2 2xl:grid-cols-[1fr_1fr_1.1fr]">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-[1fr_1fr_1.1fr]">
         <StatsPanel db={db} m={m} />
         <ResPanel m={m} />
         <TraitsPanel db={db} m={m} className="lg:col-span-2 2xl:col-span-1" />
@@ -268,7 +268,7 @@ function SynthesisPanel({ db, m }: { db: DB; m: Monster }) {
 
   return (
     <Panel id="sintesis" title={`Síntesis`} right={<Link href={`/sintesis?m=${m.slug}`} className="link text-xs">Ver árbol completo →</Link>}>
-      <div className="grid gap-4 xl:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
         <div>
           <h3 className="mb-2 text-sm font-semibold">Cómo se crea <span className="text-muted">({recipes.length})</span></h3>
           {recipes.length ? (
@@ -348,7 +348,7 @@ function WherePanel({ db, m }: { db: DB; m: Monster }) {
   const byPlace = new Map<number, Monster["locations"]>();
   for (const l of m.locations) byPlace.set(l[0], [...(byPlace.get(l[0]) ?? []), l]);
   return (
-    <div id="donde" className="grid scroll-mt-20 gap-4 lg:grid-cols-[2fr_1fr]">
+    <div id="donde" className="grid scroll-mt-20 grid-cols-1 gap-4 lg:grid-cols-[2fr_1fr]">
       <Panel title="Dónde capturarlo">
         {byPlace.size === 0 ? (
           <Empty>{m.egg ? `No aparece en el mapa; sale de huevos ${EGG_ES[m.egg]?.toLowerCase() ?? m.egg}.` : "No aparece en el mapa: se consigue por síntesis."}</Empty>
