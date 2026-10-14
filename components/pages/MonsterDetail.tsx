@@ -183,7 +183,7 @@ function TraitsPanel({ db, m, className }: { db: DB; m: Monster; className?: str
   return (
     <Panel title="Rasgos innatos" className={className}>
       {m.traits.length === 0 ? <Empty>Sin datos.</Empty> : (
-        <div className="grid gap-3 sm:grid-cols-2 2xl:grid-cols-1">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 2xl:grid-cols-1">
           {groups.map(([size, label]) => {
             const list = m.traits.filter(([, s]) => s === size);
             if (!list.length) return null;
