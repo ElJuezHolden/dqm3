@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { DB } from "@/lib/data";
-import { DAMAGE_ES, EGG_ES, ELEMENT_IDS, RES_LABEL, resLevel, SEASON_ES, STATS, STATUS_IDS, WEATHER_ES } from "@/lib/labels";
+import { DAMAGE_ES, EGG_ES, ELEMENT_IDS, FAMILY_ES, RES_LABEL, resLevel, SEASON_ES, STATS, STATUS_IDS, WEATHER_ES } from "@/lib/labels";
 import { recipeSlots, slotAccepts } from "@/lib/synthesis";
 import type { Monster, Recipe, Skill, Trait } from "@/lib/types";
 import { HowToGet, Ingredient } from "../Recipe";
@@ -283,7 +283,7 @@ function SynthesisPanel({ db, m }: { db: DB; m: Monster }) {
           {wildcard.length > 0 && (
             <div className="mt-3">
               <button type="button" className="text-xs text-gold-2 hover:underline" onClick={() => setWild(!wild)}>
-                {wild ? "▲ Ocultar" : "▼ Ver"} {wildcard.length} recetas más donde vale como «cualquier {db.family.get(m.family)?.name}»
+                {wild ? "▲ Ocultar" : "▼ Ver"} {wildcard.length} recetas más donde vale como «cualquier {FAMILY_ES[db.family.get(m.family)?.slug ?? ""]}»
               </button>
               {wild && <ul className="fade-in mt-2 space-y-1.5">{wildcard.map(useRow)}</ul>}
             </div>
