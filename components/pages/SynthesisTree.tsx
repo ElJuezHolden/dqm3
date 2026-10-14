@@ -7,7 +7,7 @@ import { useQueryState } from "@/lib/useQueryState";
 import { monsterOptions } from "../options";
 import { Picker } from "../Picker";
 import { Empty, FamilyTag, PageHeader, RankBadge, Section, Sprite, WithData } from "../ui";
-import { RecipeRow } from "./MonsterDetail";
+import { RecipeRow } from "../Recipe";
 
 export function SynthesisTree() {
   return <WithData>{(db) => <Tree db={db} />}</WithData>;
