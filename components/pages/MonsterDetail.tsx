@@ -229,7 +229,7 @@ function RecipeCard({ db, r, n }: { db: DB; r: Recipe; n: number }) {
     <div className="rounded-xl border border-line bg-bg-2 p-3">
       <div className="mb-2 text-[11px] font-semibold text-muted">{r.g ? `Receta ${n} · síntesis cuádruple` : `Receta ${n}`}</div>
       {r.p ? pair(r.p) : (
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div className="rounded-lg border border-line p-2">{pair([r.g[0], r.g[1]])}</div>
           <div className="rounded-lg border border-line p-2">{pair([r.g[2], r.g[3]])}</div>
         </div>
